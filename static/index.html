@@ -24,6 +24,16 @@
     /* Your individual styles here, or just use inline styles if that’s
        what you want. */
     
+       .slides > article:not(.fill)::before {
+         content: '';
+         display: block;
+         width: 100px;
+         height: 100px;
+         position: absolute;
+         left: 0;
+         bottom: 0;
+         background: url(images/html5-logo-65x65.png) 30px 20px no-repeat;
+       }
     
   </style>
 
