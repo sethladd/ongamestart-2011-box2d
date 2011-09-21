@@ -20,6 +20,28 @@
     <script src='slides.js'></script>
   </head>
   
+  <script>
+  var transientIframe = function(slideId, url) {
+    iframeId = slideId + "-iframe";
+    var slide = document.getElementById(slideId);
+    slide.addEventListener("slideenter", function() {
+      if (document.getElementById(iframeId)) {
+        return;
+      }
+      var iframe = document.createElement("iframe");
+      iframe.src = url;
+      iframe.id = iframeId;
+      slide.appendChild(iframe);
+    });
+    slide.addEventListener("slideleave", function() {
+      var iframe = document.getElementById(iframeId);
+      if (iframe) {
+        iframe.parentNode.removeChild(iframe);
+      }
+    });
+  }
+  </script>
+  
   <style>
     /* Your individual styles here, or just use inline styles if that’s
        what you want. */
@@ -58,9 +80,76 @@
       </article>
       
       <article>
-        <h2>
-          Who am I
-        </h2>
+        <h3>
+          Hello!  (hello in polish)
+        </h3>
+        <img src="/images/sethladd-avatar.png" alt="Seth Ladd Portrait" style="float:right">
+        <ul>
+          <li>
+            Developer Advocate at Google
+          </li>
+          <li>
+            Co-producer, <a href="http://newgameconf.com">New Game</a> Conf
+          </li>
+          <li>
+            Academy of Interactive Arts and Sciences, Board member
+          </li>
+          <li>
+            Developer, Angry Birds HTML5
+          </li>
+          <li>
+            Favorite Game: Super Puzzle Fighter 2 Turbo HD Remix
+            <ul>
+              <li style="font-size:0.5em">Someone please port it to WebGL and Websockets kthxbai!!1</li>
+            </ul>
+          </li>
+          <li>
+            <a href="http://twitter.com/sethladd">@sethladd</a>
+          </li>
+          <li>
+            <a href="http://profiles.google.com/sethladd">+sethladd</a>
+          </li>
+        </ul>
+      </article>
+      
+      <article class='fill' id="box2d-demo">
+        <h3>Box2D demo</h3>
+        <script>
+          transientIframe("box2d-demo", "http://localhost:8084/14/index.html");
+        </script>
+      </article>
+      
+      <article>
+        <h3>What is Box2D?</h3>
+        <ul>
+          <li>2D</li>
+          <li>Rigid bodies</li>
+          <li>Physics simulation</li>
+          <li>With goodies</li>
+        </ul>
+      </article>
+      
+      <article>
+        <h3>
+          Why Box2D?
+        </h3>
+        <ul>
+          <li>
+            Real games use it
+          </li>
+          <li>
+            More natural feel
+          </li>
+          <li>
+            Open source, free
+          </li>
+          <li>
+            Active community
+          </li>
+          <li>
+            Oh so many ports
+          </li>
+        </ul>
       </article>
       
       <article>
@@ -132,6 +221,12 @@
       <article>
         <h2>
           More info
+        </h2>
+      </article>
+      
+      <article>
+        <h2>
+          New Game - logo, coupon
         </h2>
       </article>
       
