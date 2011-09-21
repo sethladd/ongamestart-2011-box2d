@@ -415,6 +415,54 @@ function update() {
       </article>
       
       <article>
+        <h3>Polygons</h3>
+        <ul>
+          <li>
+            Points are relative to position x,y
+          </li>
+          <li>
+            Defined clockwise for HTML5 canvas
+          </li>
+          <li>
+            Convex shapes only
+          </li>
+        </ul>
+      </article>
+      
+      <article>
+        <h3>Polygons Code</h3>
+        <section>
+          <pre><code>
+var points = [{x: 0, y: 0}, {x: 1, y: 0}, {x: 0, y:2}];
+for (var i = 0; i &lt; entity.points.length; i++) {
+    var vec = new b2Vec2();
+    vec.Set(entity.points[i].x, entity.points[i].y);
+    points[i] = vec;
+}
+this.fixDef.shape = new b2PolygonShape;
+this.fixDef.shape.SetAsArray(points, points.length);
+this.bodyDef.position.x = 5;
+this.bodyDef.position.y = 5;
+this.world.CreateBody(this.bodyDef).CreateFixture(this.fixDef);
+          </code></pre>
+        </section>
+      </article>
+      
+      <article>
+        <h3>Polygon points and position</h3>
+        <p>
+          <img class="centered" width="800" src="images/box2d-polygon-positions.png">
+        </p>
+      </article>
+      
+      <article class="fill" id="box2d-07">
+        <h3>Polygons in action</h3>
+        <script>
+          transientIframe("box2d-07", "http://box2d-javascript-fun.appspot.com/07/index.html");
+        </script>
+      </article>
+      
+      <article>
         <h2>
           Joints
         </h2>
