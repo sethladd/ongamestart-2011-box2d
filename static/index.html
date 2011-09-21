@@ -85,7 +85,7 @@
       
       <article>
         <h3>
-          Hello!  (hello in polish)
+          Hello! Cześć!
         </h3>
         <img src="/images/sethladd-avatar.png" alt="Seth Ladd Portrait" style="float:right">
         <ul>
@@ -126,6 +126,7 @@
       <article>
         <h3>What is Box2D?</h3>
         <ul>
+          <li>Open source</li>
           <li>2D</li>
           <li>Rigid bodies</li>
           <li>Physics simulation</li>
@@ -142,10 +143,13 @@
             Real games use it
           </li>
           <li>
-            More natural feel
+            Easier than starting from scratch
           </li>
           <li>
-            Open source, free
+            Lots under the hood: Bodies, collisions, impulses, forces, joints, etc
+          </li>
+          <li>
+            Open source, zlib license
           </li>
           <li>
             Active community
@@ -157,21 +161,237 @@
       </article>
       
       <article>
-        <h2>
-          where did it come from?
-        </h2>
+        <h3>
+          Thank you Erin!
+        </h3>
+        <ul>
+          <li>Erin Catto's GDC presentations</li>
+          <li>Open sourced</li>
+          <li>Active in the forums</li>
+          <li>Continues to release updates</li>
+        </ul>
       </article>
       
       <article>
-        <h2>
-          how to get it?
-        </h2>
+        <h3>
+          How do you get it?
+        </h3>
+        <ul>
+          <li>
+            Two ports for JavaScript
+          </li>
+          <li>
+            You probably want box2dweb
+          </li>
+          <li>
+            <a href="http://code.google.com/p/box2dweb/">http://code.google.com/p/box2dweb/</a>
+          </li>
+        </ul>
       </article>
       
       <article>
-        <h2>
-          Basic Concepts - world, bodies, fixtures, shapes, gravity
-        </h2>
+        <h2>Prereq</h2>
+      </article>
+      
+      <article>
+        <h3>Animating with requestAnimationFrame</h3>
+        <section>
+        <pre><code>// http://paulirish.com/2011/requestanimationframe-for-smart-animating/
+window.requestAnimFrame = (function(){
+      return  window.requestAnimationFrame       || 
+              window.webkitRequestAnimationFrame || 
+              window.mozRequestAnimationFrame    || 
+              window.oRequestAnimationFrame      || 
+              window.msRequestAnimationFrame     || 
+              function(/* function */ callback, /* DOMElement */ element){
+                window.setTimeout(callback, 1000 / 60);
+              };
+})();
+</code></pre>
+        </section>
+      </article>
+      
+      <article>
+        <h2>Orientation</h2>
+      </article>
+      
+      <article>
+        <h3>
+          Box2D basic concepts - NEED GRAPHIC
+        </h3>
+        <ul>
+          <li>World</li>
+          <li>Body</li>
+          <li>Fixture</li>
+          <li>Shape</li>
+          <li>Gravity</li>
+        </ul>
+      </article>
+      
+      <article>
+        <h3>
+          Box2D and real world units
+        </h3>
+        <ul>
+          <li>Kilograms</li>
+          <li>Meters</li>
+          <li>Seconds</li>
+        </ul>
+      </article>
+      
+      <article>
+        <h3>
+          Box2D and scale
+        </h3>
+        <ul>
+          <li>Stick between Android phones to school buses
+            <ul>
+              <li>0.1 m to 10 m</li>
+            </ul>
+            </li>
+          <li>Avoid dust particles to skyscrapers</li>
+          <li>Meters DO NOT equal pixels</li>
+        </ul>
+      </article>
+      
+      <article>
+        <h3>
+          Stepping through the world
+        </h3>
+        <ul>
+          <li>Time step freq: 60Hz</li>
+          <li>Velocity iterations: 8</li>
+          <li>Position iterations: 3</li>
+          <li>Performance and accuracy tradeoffs... experiment!</li>
+        </ul>
+      </article>
+      
+      <article>
+        <h2>Basic code walkthrough</h2>
+      </article>
+      
+      <article>
+        <h3>Initialize the world</h3>
+        <section>
+        <pre><code>
+world = new b2World(
+      new b2Vec2(0, 10)    // gravity vector
+   ,  true                 // allow sleeping bodies
+);
+
+var SCALE = 30; // 30 pixels to 1 meter
+        </code></pre>
+        </section>
+      </article>
+      
+      <article>
+        <h3>Define FixtureDef</h3>
+        <section>
+          <pre><code>
+var fixDef = new b2FixtureDef;
+fixDef.density = 1.0;
+fixDef.friction = 0.5;
+fixDef.restitution = 0.2;
+          </code></pre>
+        </section>
+      </article>
+      
+      <article>
+        <h3>Specify the ground</h3>
+        <section>
+          <pre><code>
+var bodyDef = new b2BodyDef;
+
+//create ground
+bodyDef.type = b2Body.b2_staticBody;
+
+// positions the center of the object (not upper left!)
+bodyDef.position.x = canvas.width / 2 / SCALE;
+bodyDef.position.y = (canvas.height / SCALE) - 1;
+
+fixDef.shape = new b2PolygonShape;
+
+// half width, half height.
+fixDef.shape.SetAsBox((canvas.width / SCALE) / 2, (10/SCALE) / 2);
+
+world.CreateBody(bodyDef).CreateFixture(fixDef);
+            </code></pre>
+        </section>
+      </article>
+      
+      <article>
+        <h3>Units on screen</h3>
+        <p>
+          <img class='centered' width="800" src='images/box2d-units.png' alt="Measurements of units on canvas">
+        </p>
+      </article>
+      
+      <article>
+        <h3>Specify a dynamic circle</h3>
+        <section>
+          <pre><code>
+bodyDef.type = b2Body.b2_dynamicBody;
+fixDef.shape = new b2CircleShape(
+   Math.random() + 0.1 //radius
+);
+bodyDef.position.x = Math.random() * 25;
+bodyDef.position.y = Math.random() * 10;
+world.CreateBody(bodyDef).CreateFixture(fixDef);
+            </code></pre>
+        </section>
+      </article>
+      
+      <article>
+        <h3>Specify a dynamic rectangle</h3>
+        <section>
+          <pre><code>
+bodyDef.type = b2Body.b2_dynamicBody;
+fixDef.shape = new b2PolygonShape;
+fixDef.shape.SetAsBox(
+      Math.random() + 0.1 //half width
+   ,  Math.random() + 0.1 //half height
+);
+bodyDef.position.x = Math.random() * 25;
+bodyDef.position.y = Math.random() * 10;
+world.CreateBody(bodyDef).CreateFixture(fixDef);
+            </code></pre>
+        </section>
+      </article>
+      
+      <article>
+        <h3>Debug draw (boilerplate)</h3>
+        <section>
+          <pre><code>
+//setup debug draw
+var debugDraw = new b2DebugDraw();
+debugDraw.SetSprite(document.getElementById("c").getContext("2d"));
+debugDraw.SetDrawScale(SCALE);
+debugDraw.SetFillAlpha(0.3);
+debugDraw.SetLineThickness(1.0);
+debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit);
+world.SetDebugDraw(debugDraw);
+            </code></pre>
+        </section>
+      </article>
+      
+      <article>
+        <h3>Update world</h3>
+        <section>
+          <pre><code>
+function update() {
+   world.Step(
+         1 / 60   //frame-rate
+      ,  10       //velocity iterations
+      ,  10       //position iterations
+   );
+   world.DrawDebugData();
+   world.ClearForces();
+
+   stats.update();
+   requestAnimFrame(update);
+}; // update()
+          </code></pre>
+        </section>
       </article>
       
       <article>
@@ -223,12 +443,6 @@
       </article>
       
       <article>
-        <h2>
-          New Game - logo, coupon
-        </h2>
-      </article>
-      
-      <article>
         <h3>
           Join us at New Game. Use coupon <code>HTML5ROCKS</code> for 15%
         </h3>
@@ -238,9 +452,15 @@
       </article>
       
       <article>
-        <h2>
-          Thanks!
-        </h2>
+        <h3>
+          Thanks! Dziękuję!
+        </h3>
+        <ul>
+          <li><a href="http://bit.ly/ongamestart-box2d" title="Slides for this presentation">http://bit.ly/ongamestart-box2d</a></li>
+          <li><a href="http://twitter.com/sethladd" title="Seth Ladd's twitter account">@sethladd</a></li>
+          <li><a href="http://profiles.google.com/sethladd" title="Seth Ladd's Google+ profile page">+sethladd</a></li>
+          <li>Serious, Super Puzzle Fighter in WebGL with Websockets. Think about it.</li>
+        </ul>
       </article>
       
       <article>
