@@ -217,7 +217,7 @@ window.requestAnimFrame = (function(){
       
       <article>
         <h3>
-          Box2D basic classes
+          Box2D basic concepts and classes
         </h3>
         <p>
           <img src="images/box2d-core-concepts.png" class="centered" alt="World - Body - Fixture - Shape">
@@ -237,7 +237,7 @@ window.requestAnimFrame = (function(){
       
       <article>
         <h3>
-          Box2D and scale
+          Box2D and scale - NEED GRAPHICS
         </h3>
         <ul>
           <li>Stick between Android phones to school buses
@@ -355,7 +355,7 @@ world.CreateBody(bodyDef).CreateFixture(fixDef);
       </article>
       
       <article>
-        <h3>Debug draw (boilerplate)</h3>
+        <h3>Debug draw (for testing only, not for real game)</h3>
         <section>
           <pre><code>
 //setup debug draw
@@ -430,9 +430,9 @@ function update() {
         <section>
           <pre><code>
 var points = [{x: 0, y: 0}, {x: 1, y: 0}, {x: 0, y:2}];
-for (var i = 0; i &lt; entity.points.length; i++) {
+for (var i = 0; i &lt; points.length; i++) {
     var vec = new b2Vec2();
-    vec.Set(entity.points[i].x, entity.points[i].y);
+    vec.Set(points[i].x, points[i].y);
     points[i] = vec;
 }
 this.fixDef.shape = new b2PolygonShape;
@@ -501,9 +501,95 @@ for (var j = 0; j &lt; entity.polys.length; j++) {
       </article>
       
       <article>
+        <h3>Separate entities and bodies</h3>
+        <ul>
+          <li>Use body's GetUserData() to link entity</li>
+          <li>Treat Box2D bodies as just physics simulation</li>
+          <li>Perform drawing outside of Box2D</li>
+        </ul>
+      </article>
+      
+      <article>
+        <h3>Simple entities - NEEDS CHART</h3>
+        <p>
+          <img class="centered" src="images/box2d-entities.png" alt="Entity class hierarchy with update and draw methods">
+        </p>
+      </article>
+      
+      <article>
+        <h3>Step 1: Rotate canvas for body angle</h3>
+        <section>
+          <pre><code>
+ctx.save();
+ctx.translate(this.x * SCALE, this.y * SCALE);
+ctx.rotate(this.angle);
+ctx.translate(-(this.x) * SCALE, -(this.y) * SCALE);
+ctx.fillStyle = this.color;
+          </code></pre>
+        </section>
+      </article>
+      
+      <article>
+        <h3>Step 2: Draw lines for polygon</h3>
+        <section>
+          <pre><code>
+for (var i = 0; i &lt; this.polys.length; i++) {
+  var points = this.polys[i];
+  ctx.beginPath();
+  ctx.moveTo((this.x + points[0].x) * SCALE,
+             (this.y + points[0].y) * SCALE);
+  for (var j = 1; j &lt; points.length; j++) {
+     ctx.lineTo((points[j].x + this.x) * SCALE,
+                (points[j].y + this.y) * SCALE);
+  }
+  ctx.lineTo((this.x + points[0].x) * SCALE,
+             (this.y + points[0].y) * SCALE);
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+}
+
+ctx.restore();
+          </code></pre>
+        </section>
+      </article>
+      
+      <article>
         <h2>
           Joints
         </h2>
+      </article>
+      
+      <article>
+        <h3>Constrain bodies with joints</h3>
+        <ul>
+          <li>Distance</li>
+          <li>Friction</li>
+          <li>Gear</li>
+          <li>Line</li>
+          <li>Mouse</li>
+          <li>Prismatic</li>
+          <li>Pulley</li>
+          <li>Revolute</li>
+          <li>Weld</li>
+        </ul>
+      </article>
+      
+      <article>
+        <h3>Revolute joint</h3>
+        <ul>
+          <li>Two bodies revolve around the same point</li>
+          <li>Optional motor, configurable torque</li>
+          <li>Optional limits</li>
+        </ul>
+        <section>
+          <pre><code>
+var joint = new b2RevoluteJointDef();
+// both body1 and body2 already in correct position
+joint.Initialize(body1, body2, body1.GetWorldCenter());
+this.world.CreateJoint(joint);
+          </code></pre>
+        </section>
       </article>
       
       <article>
