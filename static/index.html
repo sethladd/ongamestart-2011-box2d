@@ -463,6 +463,48 @@ this.world.CreateBody(this.bodyDef).CreateFixture(this.fixDef);
       </article>
       
       <article>
+        <h3>More complex bodies</h3>
+        <p>
+          <img src="images/box2d-body-fixtures-shapes.png" width="600" class="centered">
+        </p>
+      </article>
+      
+      <article>
+        <h3>Complex bodies code</h3>
+        <section>
+          <pre><code>
+var entity = "4": {id: 4, x: 10, y: 10, polys: [
+    [{x: -1, y: -1}, {x: 1, y: -1}, {x: 1, y: 1}, {x: -1, y: 1}], // box
+    [{x: 1, y: -1.5}, {x: 2, y: 0}, {x: 1, y: 1.5}]  // arrow
+]};
+for (var j = 0; j &lt; entity.polys.length; j++) {
+    var points = entity.polys[j];
+    var vecs = [];
+    for (var i = 0; i &lt; points.length; i++) {
+        var vec = new b2Vec2();
+        vec.Set(points[i].x, points[i].y);
+        vecs[i] = vec;
+    }
+    this.fixDef.shape = new b2PolygonShape;
+    this.fixDef.shape.SetAsArray(vecs, vecs.length);
+    body.CreateFixture(this.fixDef);
+}
+          </code></pre>
+        </section>
+      </article>
+      
+      <article class="fill" id="box2d-08">
+        <h3>Complex bodies in action</h3>
+        <script>
+          transientIframe("box2d-08", "http://box2d-javascript-fun.appspot.com/08/index.html");
+        </script>
+      </article>
+      
+      <article>
+        <h2>Drawing onto Canvas</h2>
+      </article>
+      
+      <article>
         <h2>
           Joints
         </h2>
