@@ -1,0 +1,15 @@
+application: ongamestart-2011-box2d
+version: 1
+runtime: python
+api_version: 1
+
+#default_expiration: "1d"
+
+handlers:
+    
+- url: (.*)/
+  static_files: static\1/index.html
+  upload: static/index.html
+
+- url: /
+  static_dir: static
