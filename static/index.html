@@ -720,14 +720,91 @@ listener.PostSolve = function(contact, impulse) {
       
       <article>
         <h2>
-          Animations - fps, step freq
+          Parallelizing
         </h2>
       </article>
       
       <article>
-        <h2>
-          Web worker - 1st try, 2nd try
-        </h2>
+        <h3>Web workers</h3>
+        <ul>
+          <li>JavaScript in a separate process</li>
+          <li>postMessage() communication</li>
+        </ul>
+        <iframe src="http://caniuse.com/webworkers/embed/" style="height:300px"></iframe>
+      </article>
+      
+      <article>
+        <h3>Box2D in a worker</h3>
+        <section>
+          <pre><code>
+worker = new Worker('physics.js');
+
+// bootstrap box
+worker.postMessage({'cmd': 'bodies', 'msg': world});
+
+// get updates from worker
+worker.onmessage = function(e) {
+  bodiesState = e.data.worldBodies;
+};
+          </code></pre>
+        </section>
+      </article>
+      
+      <article>
+        <h3>Box2D in a worker (cont)</h3>
+        <section>
+          <pre><code>
+function update(animStart) {
+  // request a new frame
+  worker.postMessage({'cmd':'req', 'id': msgId++});
+
+  // copy state onto local objects
+  for (var id in bodiesState) {
+    var entity = world[id];
+    if (entity) entity.update(bodiesState[id]);
+  }
+}
+          </code></pre>
+        </section>
+      </article>
+      
+      <article>
+        <h3>Inside the worker</h3>
+        <section>
+          <pre><code>
+self.onmessage = function(e) {
+    switch (e.data.cmd) {
+      case 'bodies':
+        box.setBodies(e.data.msg);
+        break;
+      case 'req':
+        var timing = box.update();
+        var world = box.getState();
+        postMessage({"t": timing, "w": world, "id": e.data.id});
+        break;  
+    }
+};
+          </code></pre>
+        </section>
+      </article>
+      
+      <article>
+        <h3>In action</h3>
+        <ul>
+          <li><a href="http://box2d-javascript-fun.appspot.com/06/index.html" target="_new">Box2D and Web workers example</a></li>
+        </ul>
+      </article>
+      
+      <article>
+        <h3>Under the covers</h3>
+        <ul>
+          <li>Use the Developer Tools to see timing</li>
+          <li>Paint: drawing</li>
+          <li>Function call: Worker callback</li>
+        </ul>
+        <p>
+          <img src="images/web-worker-timeline.png" class="centered" alt="execution timeline with paint/callback/paint/callback">
+        </p>
       </article>
       
       <article>
