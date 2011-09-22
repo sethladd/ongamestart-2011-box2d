@@ -167,7 +167,7 @@
         </h3>
         <ul>
           <li>Erin Catto's GDC presentations</li>
-          <li>Open sourced</li>
+          <li>Open sourced in 2007</li>
           <li>Active in the forums</li>
           <li>Continues to release updates</li>
         </ul>
@@ -625,6 +625,9 @@ this.world.CreateJoint(joint);
 var joint = new b2RevoluteJointDef();
 // both body1 and body2 already in correct position
 joint.Initialize(body1, body2, body1.GetWorldCenter());
+joint.motorSpeed = params.motorSpeed; // negative for opposite direction
+joint.maxMotorTorque = params.maxMotorTorque;
+joint.enableMotor = true;
 this.world.CreateJoint(joint);
           </code></pre>
         </section>
@@ -836,6 +839,7 @@ self.onmessage = function(e) {
           <li><a href="http://www.box2d.org/manual.html">Box2D Manual</a></li>
           <li><a href="http://www.box2d.org/forum/index.php">Box2D Forums</a></li>
           <li><a href="http://www.iforce2d.net/b2dtut/">Box2D C++ Tutorials</a></li>
+          <li><a href="http://blog.sethladd.com/search/label/box2d">My Box2D blog posts</a></li>
           <li>API is nearly identical, almost any article or tutorial will work</li>
           <li>Beware Box2D versions, some APIs are different</li>
         </ul>
@@ -845,13 +849,16 @@ self.onmessage = function(e) {
         <h3>Key points</h3>
         <ul>
           <li>
-            Box2D is an open source 2D rigid body physics simulation engine
+            Box2D is approachable, lots of articles, and many literal ports
           </li>
           <li>
             MKS units, 0.1m to 10m, don't use pixels
           </li>
           <li>
-            Many options: joints, collisions, gravities, friction, impulse, torques
+            Lots of goodies: joints, collisions, impulses, ray casting, etc
+          </li>
+          <li>
+            Active community!
           </li>
         </ul>
       </article>
@@ -870,7 +877,8 @@ self.onmessage = function(e) {
           Thanks! Dziękuję!
         </h3>
         <ul>
-          <li><a href="http://bit.ly/ongamestart-box2d" title="Slides for this presentation">http://bit.ly/ongamestart-box2d</a></li>
+          <li>Slides: <a href="http://bit.ly/ongamestart-box2d" title="Slides for this presentation">http://bit.ly/ongamestart-box2d</a></li>
+          <li>Source code: <a href="https://github.com/sethladd/box2d-javascript-fun">https://github.com/sethladd/box2d-javascript-fun</a></li>
           <li><a href="http://twitter.com/sethladd" title="Seth Ladd's twitter account">@sethladd</a></li>
           <li><a href="http://profiles.google.com/sethladd" title="Seth Ladd's Google+ profile page">+sethladd</a></li>
           <li>Serious, Super Puzzle Fighter in WebGL with Websockets. Think about it.</li>
