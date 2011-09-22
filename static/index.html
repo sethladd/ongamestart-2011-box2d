@@ -660,14 +660,60 @@ bTest.prototype.applyImpulse = function(body, degrees, power) {
       </article>
       
       <article>
-        <h2>
-          Animations - fps, step freq
-        </h2>
+        <h2>Hit me body, one more time</h2>
+      </article>
+      
+      <article>
+        <h3>b2ContactListener</h3>
+        <ul>
+          <li><code>BeginContact</code></li>
+          <li><code>EndContact</code></li>
+          <li><code>PreSolve</code> - can override the contact here</li>
+          <li><code>PostSolve</code> - includes the impulse</li>
+        </ul>
+      </article>
+      
+      <article>
+        <h3>Contact tips and code</h3>
+        <ul>
+          <li>Events fired during world step, avoid manipulating world</li>
+          <li>EndContact can be fired outside of world step</li>
+          <li>PostSolve called a LOT</li>
+        </ul>
+        
+        <section>
+          <pre><code>
+var listener = new Box2D.Dynamics.b2ContactListener;
+listener.BeginContact = function(contact) {
+  console.log(contact.GetFixtureA().GetBody().GetUserData());
+  console.log(contact.GetFixtureB().GetBody().GetUserData());
+};
+this.world.SetContactListener(listener);
+          </code></pre>
+        </section>
+      </article>
+      
+      <article>
+        <h3>How strong?</h3>
+        <ul>
+          <li>BeginContact - linearVelocity and mass</li>
+          <li>PostSolve - impulse</li>
+        </ul>
+        <section>
+          <pre><code>
+listener.PostSolve = function(contact, impulse) {
+  var impulseValue = impulse.normalImpulses[0];
+  if (impulseValue &lt; 0.1) return;
+  var object = contact.GetFixtureA().GetBody().GetUserData();
+  object.applyHit(impulseValue);
+};
+          </code></pre>
+        </section>
       </article>
       
       <article>
         <h2>
-          Collisions
+          Animations - fps, step freq
         </h2>
       </article>
       
@@ -685,14 +731,30 @@ bTest.prototype.applyImpulse = function(body, degrees, power) {
       
       <article>
         <h2>
-          Advanced topics - controllers, bullets, ray casting
+          Lots more fun
         </h2>
       </article>
       
       <article>
-        <h2>
+        <h3>More Box2D functionality</h3>
+        <ul>
+          <li>Bullets</li>
+          <li>Controllers - floating, wind, etc</li>
+          <li>Ray casting</li>
+        </ul>
+      </article>
+      
+      <article>
+        <h3>
           More info
-        </h2>
+        </h3>
+        <ul>
+          <li><a href="http://www.box2d.org/manual.html">Box2D Manual</a></li>
+          <li><a href="http://www.box2d.org/forum/index.php">Box2D Forums</a></li>
+          <li><a href="http://www.iforce2d.net/b2dtut/">Box2D C++ Tutorials</a></li>
+          <li>API is nearly identical, almost any article or tutorial will work</li>
+          <li>Beware Box2D versions, some APIs are different</li>
+        </ul>
       </article>
       
       <article>
