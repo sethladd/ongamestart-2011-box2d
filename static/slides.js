@@ -381,17 +381,17 @@ function setupFrames() {
 function setupInteraction() {
   /* Clicking and tapping */
   
-  var el = document.createElement('div');
-  el.className = 'slide-area';
-  el.id = 'prev-slide-area';  
-  el.addEventListener('click', prevSlide, false);
-  document.querySelector('section.slides').appendChild(el);
-
-  var el = document.createElement('div');
-  el.className = 'slide-area';
-  el.id = 'next-slide-area';  
-  el.addEventListener('click', nextSlide, false);
-  document.querySelector('section.slides').appendChild(el);  
+  // var el = document.createElement('div');
+  // el.className = 'slide-area';
+  // el.id = 'prev-slide-area';  
+  // el.addEventListener('click', prevSlide, false);
+  // document.querySelector('section.slides').appendChild(el);
+  // 
+  // var el = document.createElement('div');
+  // el.className = 'slide-area';
+  // el.id = 'next-slide-area';  
+  // el.addEventListener('click', nextSlide, false);
+  // document.querySelector('section.slides').appendChild(el);  
   
   /* Swiping */
   
