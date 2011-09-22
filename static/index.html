@@ -576,6 +576,36 @@ ctx.restore();
       </article>
       
       <article>
+        <h3>Distance Joint</h3>
+        <ul>
+          <li>Distance between two bodies is constant</li>
+        </ul>
+        <p>
+          <img src="images/box2d-distance-joint.png" alt="two objects constrainted by distance" class="centered">
+        </p>
+        
+        <section>
+          <pre><code>
+joint.Initialize(body1, body2, body1.GetWorldCenter(), body2.GetWorldCenter());
+joint.frequencyHz = params['frequencyHz']; // optional, less than half of time step
+joint.dampingRatio = params['dampingRatio']; // optional, 0 - 1
+this.world.CreateJoint(joint);
+          </code></pre>
+        </section>
+        
+        <p>
+          <span style="font-size: 0.5em">(pic from <a href="http://www.box2d.org/manual.html">Box2d manual</a>)</span>
+        </p>
+      </article>
+      
+      <article id="box2d-13">
+        <h3>Distance joint example</h3>
+        <script>
+          transientIframe("box2d-13", "http://box2d-javascript-fun.appspot.com/13/index.html");
+        </script>
+      </article>
+      
+      <article>
         <h3>Revolute joint</h3>
         <ul>
           <li>Two bodies revolve around the same point</li>
@@ -593,9 +623,39 @@ this.world.CreateJoint(joint);
       </article>
       
       <article id="box2d-14">
-        <h3>Revolute joint example</h3>
+        <h3>Revolute joint in action</h3>
         <script>
           transientIframe("box2d-14", "http://box2d-javascript-fun.appspot.com/14/index.html");
+        </script>
+      </article>
+      
+      <article>
+        <h2>Make it jump</h2>
+      </article>
+      
+      <article>
+        <h3>Impulse and force</h3>
+        <ul>
+          <li><code>ApplyForce</code> - slowly over time, pushing</li>
+          <li><code>ApplyImpulse</code> - immediate, hit by a bat</li>
+          <li>Vector for direction and magnitude</li>
+          <li>Point for where load is applied</li>
+        </ul>
+        <section>
+          <pre><code>
+bTest.prototype.applyImpulse = function(body, degrees, power) {
+  body.ApplyImpulse(new b2Vec2(Math.cos(degrees * (Math.PI / 180)) * power,
+                               Math.sin(degrees * (Math.PI / 180)) * power),
+                               body.GetWorldCenter());
+}
+          </code></pre>
+        </section>
+      </article>
+      
+      <article id="box2d-11">
+        <h3>Impulse in action</h3>
+        <script>
+          transientIframe("box2d-11", "http://box2d-javascript-fun.appspot.com/11/index.html");
         </script>
       </article>
       
