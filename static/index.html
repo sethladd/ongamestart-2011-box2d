@@ -312,7 +312,7 @@ bodyDef.position.y = (canvas.height / SCALE) - 1;
 fixDef.shape = new b2PolygonShape;
 
 // half width, half height.
-fixDef.shape.SetAsBox((canvas.width / SCALE) / 2, (10/SCALE) / 2);
+fixDef.shape.SetAsBox((canvas.width / SCALE) / 2, 0.5 / 2);
 
 world.CreateBody(bodyDef).CreateFixture(fixDef);
             </code></pre>
